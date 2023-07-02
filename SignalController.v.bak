@@ -1,0 +1,53 @@
+module SignalController (
+  input wire [5:0] opcode,       // Campo do opcode da instrução
+  output wire RegDst,            
+  output wire Branch,            
+  output wire LeMem,          
+  output wire MemparaReg,          
+  output wire [2:0]OpALU,           
+  output wire EscreveMem,          
+  output wire OrigALU,      
+  output wire EscreveReg             
+);
+
+  always @ (opcode) begin
+    case (opcode)
+      6'b000000: begin   // R-type
+        RegDst = 1;
+		  Branch = 0;
+		  LeMem = 0;
+        MemparaReg = 0;
+        OpALU = 3'b010;   // Funct field determines ALU operation
+        EscreveMem = 0;
+		  OrigALU = 0;
+		  EscreveReg = 1;
+		  
+      end
+
+      6'b100011: begin  // lw
+        RegDst = 0;
+		  Branch = 0;
+		  LeMem = 1;
+        MemparaReg = 1;
+        OpALU = 3'b000;   // Add for address calculation
+        EscreveMem = 0;
+		  OrigALU = 1;
+		  EscreveReg = 1;
+      end
+
+      // Adicione mais cases para outros tipos de instrução
+
+      default: begin    // Instrução não suportada
+        RegDst = 0;
+		  Branch = 0;
+		  LeMem = 0;
+        MemparaReg = 0;
+        OpALU = 3'b000;
+        EscreveMem = 0;
+		  OrigALU = 0;
+		  EscreveReg = 0;
+      end
+    endcase
+  end
+
+endmodule

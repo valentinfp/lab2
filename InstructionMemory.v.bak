@@ -1,0 +1,17 @@
+module InstructionMemory (
+  input wire [31:0] address,     // Endereço de leitura
+  output reg [31:0] instruction  // Instrução lida
+);
+
+  reg [31:0] memory [0:1023];  // Matriz de registradores para armazenar as instruções
+
+  // Leitura do arquivo .mif para inicializar a memória
+  initial begin
+    $readmemb("instructions.mif", memory);
+  end
+
+  always @(address) begin
+    instruction <= memory[address];
+  end
+
+endmodule

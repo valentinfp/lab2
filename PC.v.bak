@@ -1,0 +1,16 @@
+module PC (
+  input wire clk,        // Sinal de clock
+  input wire reset,      // Sinal de reset
+  input wire enable,     // Sinal de habilitação
+  input wire [31:0] incr,// Sinal de incremento (valor para somar ao PC)
+  output reg [31:0] pc   // Saída do registrador PC
+);
+
+  always @(posedge clk or posedge reset) begin
+    if (reset)      // Reset assíncrono
+      pc <= 32'd0;
+    else if (enable) // Habilitação do incremento
+      pc <= pc + incr;
+  end
+
+endmodule

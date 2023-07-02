@@ -1,0 +1,8 @@
+module LeftShift2 (
+  input wire [31:0] input,
+  output wire [31:0] output
+);
+
+  assign output = input << 2;
+
+endmodule
